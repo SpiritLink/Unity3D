@@ -5,16 +5,20 @@ using UnityEngine;
 public class Control_Car : MonoBehaviour {
 
     [Range(10, 50)]
-    public float MaxSpeed = 10.0f;
-    float speedMove = 10.0f;
+    public float BaseMaxSpeed = 10.0f;
+    public float CurrentMaxSpeed = 0.0f;
+    float MoveSpeed = 10.0f;
     [Range(100, 200)]
     public float speedRotate = 100.0f;
 
-    private float fTime = 0.0f;
+    private float fColTime = 0.0f;
     string CollisionObjName = "";
 
     public int ID = -1;
     public int NodeNumber = -1;
+    public float fStatusTime = 0.0f;
+    public bool IsBoost = false;
+
 
 	// Use this for initialization
 	void Start () {
@@ -27,12 +31,13 @@ public class Control_Car : MonoBehaviour {
         Move_Speed();
         Move_Rotate();
         Update_Speed();
+        Update_Status();
     }
 
     void Move_Speed()
     {
         float move = Input.GetAxis("Vertical");
-        move = move * speedMove * Time.deltaTime;
+        move = move * MoveSpeed * Time.deltaTime;
 
         Vector3 Direction = Vector3.forward;
         Direction.y = 0;
@@ -49,10 +54,26 @@ public class Control_Car : MonoBehaviour {
 
     void Update_Speed()
     {
-        fTime += Time.deltaTime;
-        speedMove = 1.0f + (fTime * 5.0f);
-        if (speedMove > MaxSpeed)
-            speedMove = MaxSpeed;
+        fColTime += Time.deltaTime;
+        MoveSpeed = 1.0f + (fColTime * 5.0f);
+
+        if (MoveSpeed > CurrentMaxSpeed)
+            MoveSpeed = CurrentMaxSpeed;
+    }
+
+    void Update_Status()
+    {
+        if (fStatusTime > 0)
+        {
+            fStatusTime -= Time.deltaTime;
+            IsBoost = true;
+            CurrentMaxSpeed = BaseMaxSpeed + 10.0f;
+        }
+        else
+        {
+            IsBoost = false;
+            CurrentMaxSpeed = BaseMaxSpeed;
+        }
     }
 
     void CheckPoint(KeyValuePair<string, int> stData)
@@ -64,8 +85,8 @@ public class Control_Car : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        fTime = 0.0f;
-        speedMove = 1.0f;
+        fColTime = 0.0f;
+        MoveSpeed = 1.0f;
         if(collision.gameObject.tag != "MapObject")
             CollisionObjName = "CollisionEnter " + collision.gameObject.name;
         print(CollisionObjName);
@@ -102,11 +123,14 @@ public class Control_Car : MonoBehaviour {
         //GUI.TextField(new Rect(10, 45, 400, 30), CollisionObjName);
         //GUILayout.Label(CollisionObjName);  // << : 지정을 따로 해줘야함
 
-        // 버튼이 눌렸을때 한번만 수행
-        if(GUI.Button(new Rect(100, 200, 200, 30), "아이템"))
+        if (IsBoost)
         {
-            GUI.TextField(new Rect(100, 200, 170, 30), "버튼 클릭");
-            print("버튼 클릭");
+            GUI.TextField(new Rect(10, 45, 300, 30), "부스트 활성화 " + CurrentMaxSpeed.ToString());
+        }
+        // 버튼이 눌렸을때 한번만 수행
+        if (GUI.Button(new Rect(500, 300, 100, 30), "부스트"))
+        {
+            fStatusTime = 10.0f;
         }
 
         // 버튼이 눌렸을때 여러번 수행

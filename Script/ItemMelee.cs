@@ -46,7 +46,7 @@ public class ItemMelee : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         print(other.gameObject.tag);
-        ActiveCheckPoint(other.gameObject);
+        //ActiveCheckPoint(other.gameObject);
 
         switch (other.gameObject.tag)
         {
