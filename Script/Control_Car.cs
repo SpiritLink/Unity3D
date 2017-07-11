@@ -13,9 +13,13 @@ public class Control_Car : MonoBehaviour {
     private float fTime = 0.0f;
     string CollisionObjName = "";
 
+    public int ID = -1;
+    public int NodeNumber = -1;
+
 	// Use this for initialization
 	void Start () {
         GameManager.Instance.PlayTime = 0.0f;
+        ID = GameManager.Instance.GetID();
     }
 
     // Update is called once per frame
@@ -23,8 +27,6 @@ public class Control_Car : MonoBehaviour {
         Move_Speed();
         Move_Rotate();
         Update_Speed();
-        GameManager.Instance.PlayTime += Time.deltaTime;
-
     }
 
     void Move_Speed()
@@ -53,6 +55,13 @@ public class Control_Car : MonoBehaviour {
             speedMove = MaxSpeed;
     }
 
+    void CheckPoint(KeyValuePair<string, int> stData)
+    {
+        print("Recv CheckPoint");
+        Debug.Log("Check Point : " + stData.Value.ToString());
+        NodeNumber = 1;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         fTime = 0.0f;
@@ -62,32 +71,23 @@ public class Control_Car : MonoBehaviour {
         print(CollisionObjName);
     }
 
-    //private void OnCollisionStay(Collision collision)
-    //{
-    //    if (collision.gameObject.tag != "MapObject")
-    //        CollisionObjName = "CollisionStay " + collision.gameObject.name;
-    //    print(CollisionObjName);
-    //}
+    private void OnCollisionStay(Collision collision)
+    {
+    }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag != "MapObject")
-            CollisionObjName = "CollisionExit " + collision.gameObject.name;
-        print(CollisionObjName);
     }
 
     private void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag != "MapObject")
-            CollisionObjName = col.gameObject.name;
-        print("TriggerEnter" + CollisionObjName);
+        //if (col.gameObject.tag != "MapObject")
+        //    Debug.Log("OnTriggerEnter");
     }
 
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (other.gameObject.tag != "MapObject")
-    //        CollisionObjName = other.gameObject.name;
-    //}
+    private void OnTriggerStay(Collider other)
+    {
+    }
 
     private void OnTriggerExit(Collider other)
     {
@@ -98,17 +98,18 @@ public class Control_Car : MonoBehaviour {
     private void OnGUI()
     {
         // 같은 기능
-        GUI.TextArea(new Rect(10, 5, 400, 30), CollisionObjName);
-        GUI.TextField(new Rect(10, 45, 400, 30), CollisionObjName);
-        GUILayout.Label(CollisionObjName);  // << : 지정을 따로 해줘야함
+        //GUI.TextArea(new Rect(10, 5, 400, 30), CollisionObjName);
+        //GUI.TextField(new Rect(10, 45, 400, 30), CollisionObjName);
+        //GUILayout.Label(CollisionObjName);  // << : 지정을 따로 해줘야함
 
-        // 버튼이 눌렸을때
+        // 버튼이 눌렸을때 한번만 수행
         if(GUI.Button(new Rect(100, 200, 200, 30), "아이템"))
         {
             GUI.TextField(new Rect(100, 200, 170, 30), "버튼 클릭");
             print("버튼 클릭");
         }
 
+        // 버튼이 눌렸을때 여러번 수행
         if (GUI.RepeatButton(new Rect(300, 300, 50, 30), "<<"))
         {
             float rotate = -1;

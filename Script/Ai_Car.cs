@@ -16,6 +16,8 @@ public class Ai_Car : MonoBehaviour
     public float moveSpeed = 5.0f;
     private float fTime = 0.0f;
 
+    public int ID = -1;
+
     void Start()
     {
         rayL = new Ray();
@@ -23,6 +25,8 @@ public class Ai_Car : MonoBehaviour
 
         rayR = new Ray();
         rayR.origin = this.transform.position;
+
+        ID = GameManager.Instance.GetID();
     }
 
     // Update is called once per frame
@@ -43,7 +47,7 @@ public class Ai_Car : MonoBehaviour
         rayL.origin = rayOrigin;
         rayR.origin = rayOrigin;
 
-        for(int iter = 0; iter < 6; ++iter)
+        for(int iter = 1; iter < 6; ++iter)
         {
             Quaternion RotR = Quaternion.Euler(0.0f, 15.0f * iter, 0.0f);
             rayR.direction = RotR * this.transform.forward;
@@ -55,7 +59,7 @@ public class Ai_Car : MonoBehaviour
             }
         }
 
-        for (int iter = 0; iter < 6; ++iter)
+        for (int iter = 1; iter < 6; ++iter)
         {
             Quaternion RotL = Quaternion.Euler(0.0f, -15.0f * iter, 0.0f);
             rayL.direction = RotL * this.transform.forward;
@@ -90,6 +94,12 @@ public class Ai_Car : MonoBehaviour
         moveSpeed = 1.0f + fTime * 2.0f;
         if (moveSpeed > CarMaxSpeed)
             moveSpeed = CarMaxSpeed;
+    }
+
+    void CheckPoint(KeyValuePair<string, int> stData)
+    {
+        print("Recv CheckPoint");
+        Debug.Log("Check Point : " + stData.Value.ToString());
     }
 
     private void OnCollisionEnter(Collision collision)

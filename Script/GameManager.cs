@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
      */
 
     public float PlayTime = 0.0f;
+    int ID = 0;
 
     //스타트보다 먼저 실행되는 함수 (한번 호출이후 다시 호출되지는 않음)
     private void Awake()
@@ -31,6 +32,16 @@ public class GameManager : MonoBehaviour {
     }
 	
 	void Update () {
-		
+        PlayTime += Time.deltaTime;
 	}
+    
+    public int GetID()
+    {
+        return ID++;
+    }
+
+    private void OnGUI()
+    {
+        GUI.TextField(new Rect(350, 45, 70, 30), PlayTime.ToString());
+    }
 }
