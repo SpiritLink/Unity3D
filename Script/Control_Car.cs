@@ -23,7 +23,9 @@ public class Control_Car : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         GameManager.Instance.PlayTime = 0.0f;
+        GameManager.Instance.IsGameRunning = true;
         ID = GameManager.Instance.GetID();
+
     }
 
     // Update is called once per frame
@@ -118,35 +120,15 @@ public class Control_Car : MonoBehaviour {
 
     private void OnGUI()
     {
-        // 같은 기능
-        //GUI.TextArea(new Rect(10, 5, 400, 30), CollisionObjName);
-        //GUI.TextField(new Rect(10, 45, 400, 30), CollisionObjName);
-        //GUILayout.Label(CollisionObjName);  // << : 지정을 따로 해줘야함
-
         if (IsBoost)
         {
-            GUI.TextField(new Rect(10, 45, 300, 30), "부스트 활성화 " + CurrentMaxSpeed.ToString());
+            GUI.TextField(new Rect(500, 0, 70, 30), "Boost On!");
         }
+
         // 버튼이 눌렸을때 한번만 수행
         if (GUI.Button(new Rect(500, 300, 100, 30), "부스트"))
         {
             fStatusTime = 10.0f;
-        }
-
-        // 버튼이 눌렸을때 여러번 수행
-        if (GUI.RepeatButton(new Rect(300, 300, 50, 30), "<<"))
-        {
-            float rotate = -1;
-            rotate = rotate * speedRotate * Time.deltaTime;
-            gameObject.transform.Rotate(Vector3.up * rotate);
-            print("좌회전");
-        }
-        if (GUI.RepeatButton(new Rect(400, 300, 50, 30), ">>"))
-        {
-            float rotate = +1;
-            rotate = rotate * speedRotate * Time.deltaTime;
-            gameObject.transform.Rotate(Vector3.up * rotate);
-            print("우회전");
         }
     }
 

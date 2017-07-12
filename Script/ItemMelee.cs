@@ -14,7 +14,11 @@ public class ItemMelee : MonoBehaviour {
     public MeleeType meleeType = MeleeType.None;
 
 	void Start () {
-		
+		if(meleeAction == MeleeAction.CheckPoint &&
+            meleeType == MeleeType.Node)
+        {
+            GameManager.Instance.NodeDic[Value] = this.gameObject;
+        }
 	}
 	
 	void Update () {

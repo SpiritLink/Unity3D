@@ -18,9 +18,17 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    /* 플레이어 정보
-     * 플레이 타임
-     */
+    public bool IsGameRunning = false;
+    public bool IsGameQuit = false;
+    public bool IsFailed = false;
+
+    Rect TimeArea = new Rect(0, 0, 100, 30);
+    Rect NodeNumArea = new Rect(100, 0, 50, 30);
+    Rect QuitArea = new Rect(0, 90, 200, 30);
+    Rect FailedArea = new Rect(0, 120, 200, 30);
+
+    // 노드 관리를 위한 변수
+    public Dictionary<int, GameObject> NodeDic = new Dictionary<int, GameObject>();
 
     public float PlayTime = 0.0f;
     int ID = 0;
@@ -32,7 +40,8 @@ public class GameManager : MonoBehaviour {
     }
 	
 	void Update () {
-        PlayTime += Time.deltaTime;
+        if(IsGameRunning)
+            PlayTime += Time.deltaTime;
 	}
     
     public int GetID()
@@ -40,8 +49,20 @@ public class GameManager : MonoBehaviour {
         return ID++;
     }
 
+    public Vector3 GetNextNode(int ID)
+    {
+        if(!NodeDic.ContainsKey(ID + 1))
+            return NodeDic[1].gameObject.transform.position;
+        return NodeDic[ID + 1].gameObject.transform.position;
+    }
+
     private void OnGUI()
     {
-        GUI.TextField(new Rect(350, 45, 70, 30), PlayTime.ToString());
+        GUI.TextField(TimeArea, PlayTime.ToString());
+        if (IsGameQuit)
+            GUI.TextField(QuitArea, "게임 클리어 !");
+        if (IsFailed)
+            GUI.TextField(FailedArea, "게임 실패 !");
+        GUI.TextField(NodeNumArea, NodeDic.Count.ToString());
     }
 }
