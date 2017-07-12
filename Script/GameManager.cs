@@ -23,12 +23,13 @@ public class GameManager : MonoBehaviour {
     public bool IsFailed = false;
 
     Rect TimeArea = new Rect(0, 0, 100, 30);
-    Rect NodeNumArea = new Rect(100, 0, 50, 30);
+    Rect NodeNumArea = new Rect(100, 0, 100, 30);
     Rect QuitArea = new Rect(0, 90, 200, 30);
     Rect FailedArea = new Rect(0, 120, 200, 30);
 
     // 노드 관리를 위한 변수
     public Dictionary<int, GameObject> NodeDic = new Dictionary<int, GameObject>();
+    public Dictionary<int, Dictionary<int, bool>> CheckPointDic = new Dictionary<int, Dictionary<int, bool>>();
 
     public float PlayTime = 0.0f;
     int ID = 0;
@@ -63,6 +64,6 @@ public class GameManager : MonoBehaviour {
             GUI.TextField(QuitArea, "게임 클리어 !");
         if (IsFailed)
             GUI.TextField(FailedArea, "게임 실패 !");
-        GUI.TextField(NodeNumArea, NodeDic.Count.ToString());
+        GUI.TextField(NodeNumArea, "NodeCnt : " + NodeDic.Count.ToString());
     }
 }

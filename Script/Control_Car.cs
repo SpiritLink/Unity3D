@@ -15,7 +15,6 @@ public class Control_Car : MonoBehaviour {
     string CollisionObjName = "";
 
     public int ID = -1;
-    public int NodeNumber = -1;
     public float fStatusTime = 0.0f;
     public bool IsBoost = false;
 
@@ -80,9 +79,8 @@ public class Control_Car : MonoBehaviour {
 
     void CheckPoint(KeyValuePair<string, int> stData)
     {
-        print("Recv CheckPoint");
         Debug.Log("Check Point : " + stData.Value.ToString());
-        NodeNumber = 1;
+        GameManager.Instance.CheckPointDic[ID][stData.Value] = true;
     }
 
     private void OnCollisionEnter(Collision collision)

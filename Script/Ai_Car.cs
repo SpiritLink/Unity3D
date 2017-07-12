@@ -19,13 +19,11 @@ public class Ai_Car : MonoBehaviour
     private float fTime = 0.0f;
 
     // Node 연산을 위한 변수
-    public int ID = -1;
-    public Vector3 nextPoint = new Vector3(0, 0, 0);
+    private int ID = -1;
+    private Vector3 nextPoint = new Vector3(0, 0, 0);
+    private Vector3 NextDirection;
 
     // 임시 확인 변수
-    private Vector3 NextDirection;
-    public float VectorDot;
-
 
     void Start()
     {
@@ -42,7 +40,7 @@ public class Ai_Car : MonoBehaviour
         rayR.origin = this.transform.position;
 
         ID = GameManager.Instance.GetID();
-        nextPoint = GameManager.Instance.GetNextNode(0);
+        nextPoint = this.transform.position + this.transform.forward * 10.0f;
     }
 
     // Update is called once per frame
@@ -111,7 +109,7 @@ public class Ai_Car : MonoBehaviour
             DistanceFL == Mathf.Infinity || DistanceFR == Mathf.Infinity)
         {
             // 외적을 구한뒤 좌로 회전할지 우로 회전할지 결정합니다. (충돌로 속도가 줄어든 상태)
-            if (moveSpeed < 2.0f)
+            if (moveSpeed < 4.0f)
             {
                 
                 Vector3 V0 = this.transform.forward;
@@ -126,10 +124,25 @@ public class Ai_Car : MonoBehaviour
         }
 
         // 차량이 측면에 달라붙은 상황일때
-        if (DistanceL < 1.5f)
-            this.transform.rotation *= Quaternion.AngleAxis(0.4f, Vector3.up);
-        if (DistanceR < 1.5f)
-            this.transform.rotation *= Quaternion.AngleAxis(-0.4f, Vector3.up);
+        float Scalar = Vector3.Dot(this.transform.forward, NextDirection);
+        if(Scalar > 0)
+        {
+            if (DistanceL < 1.5f)
+                this.transform.rotation *= Quaternion.AngleAxis(0.4f, Vector3.up);
+            if (DistanceR < 1.5f)
+                this.transform.rotation *= Quaternion.AngleAxis(-0.4f, Vector3.up);
+        }
+        else if(Scalar < 0)
+        {
+            Vector3 V0 = this.transform.forward;
+            Vector3 V1 = NextDirection;
+            Vector3 V2 = Vector3.Cross(V0, V1);
+
+            if (V2.y < 0)
+                this.transform.rotation *= Quaternion.AngleAxis(-3.0f, Vector3.up);
+            else if (V2.y > 0)
+                this.transform.rotation *= Quaternion.AngleAxis(3.0f, Vector3.up);
+        }
 
         // Rotate standard
         if (Mathf.Abs(DistanceFL - DistanceFR) > 0.5f)
@@ -166,23 +179,26 @@ public class Ai_Car : MonoBehaviour
     void CheckPoint(KeyValuePair<string, int> stData)
     {
         nextPoint = GameManager.Instance.GetNextNode(stData.Value);
+        // 자신의 아이디를 이용해 게임 매니저에 체크했다고 알림
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        fTime = 0.0f;
+        fTime = 1.0f;
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawRay(rayFrontL.origin, rayFrontL.direction * RayDistance);
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawRay(rayFrontR.origin, rayFrontR.direction * RayDistance);
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(rayL.origin, rayL.direction * RayDistance);
-        Gizmos.DrawRay(rayR.origin, rayR.direction * RayDistance);
+        // Draw Ray
+        //Gizmos.color = Color.cyan;
+        //Gizmos.DrawRay(rayFrontL.origin, rayFrontL.direction * RayDistance);
+        //Gizmos.color = Color.cyan;
+        //Gizmos.DrawRay(rayFrontR.origin, rayFrontR.direction * RayDistance);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawRay(rayL.origin, rayL.direction * RayDistance);
+        //Gizmos.DrawRay(rayR.origin, rayR.direction * RayDistance);
 
+        // Draw Direction
         Gizmos.color = Color.yellow;
         Gizmos.DrawRay(this.transform.position, NextDirection * 5.0f);
         Gizmos.color = Color.red;
