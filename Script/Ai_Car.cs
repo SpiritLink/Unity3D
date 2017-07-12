@@ -106,6 +106,11 @@ public class Ai_Car : MonoBehaviour
             if (DistanceFR > DistanceFL)
                 this.transform.rotation *= Quaternion.AngleAxis(0.4f, Vector3.up);
         }
+        if (DistanceL < 1.5f)
+            this.transform.rotation *= Quaternion.AngleAxis(0.4f, Vector3.up);
+        if (DistanceR < 1.5f)
+            this.transform.rotation *= Quaternion.AngleAxis(-0.4f, Vector3.up);
+
     }
 
     void MoveAiCar()

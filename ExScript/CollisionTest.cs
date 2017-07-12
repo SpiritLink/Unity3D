@@ -64,4 +64,40 @@ public class CollisionTest : MonoBehaviour {
         print("Collider 충돌 " + hitObject.name + " 와 Trigger Exit");
     }
 
+    // GUI 수업시간에 배웠던 내용 
+    private void OnGUI()
+    {
+        // 같은 기능
+        //GUI.TextArea(new Rect(10, 5, 400, 30), CollisionObjName);
+        //GUI.TextField(new Rect(10, 45, 400, 30), CollisionObjName);
+        //GUILayout.Label(CollisionObjName);  // << : 지정을 따로 해줘야함
+
+        //if (IsBoost)
+        //{
+        //    GUI.TextField(new Rect(10, 45, 300, 30), "부스트 활성화 " + CurrentMaxSpeed.ToString());
+        //}
+        //// 버튼이 눌렸을때 한번만 수행
+        //if (GUI.Button(new Rect(500, 300, 100, 30), "부스트"))
+        //{
+        //    fStatusTime = 10.0f;
+        //}
+
+        //// 버튼이 눌렸을때 여러번 수행
+        //if (GUI.RepeatButton(new Rect(300, 300, 50, 30), "<<"))
+        //{
+        //    float rotate = -1;
+        //    rotate = rotate * speedRotate * Time.deltaTime;
+        //    gameObject.transform.Rotate(Vector3.up * rotate);
+        //    print("좌회전");
+        //}
+        //if (GUI.RepeatButton(new Rect(400, 300, 50, 30), ">>"))
+        //{
+        //    float rotate = +1;
+        //    rotate = rotate * speedRotate * Time.deltaTime;
+        //    gameObject.transform.Rotate(Vector3.up * rotate);
+        //    print("우회전");
+        //}
+    }
+
+
 }
