@@ -20,7 +20,12 @@ public class Ai_Car : MonoBehaviour
 
     // Node 연산을 위한 변수
     public int ID = -1;
-    private Vector3 nextPoint = new Vector3(0, 0, 0);
+    public Vector3 nextPoint = new Vector3(0, 0, 0);
+
+    // 임시 확인 변수
+    private Vector3 NextDirection;
+    public float VectorDot;
+
 
     void Start()
     {
@@ -37,6 +42,7 @@ public class Ai_Car : MonoBehaviour
         rayR.origin = this.transform.position;
 
         ID = GameManager.Instance.GetID();
+        nextPoint = GameManager.Instance.GetNextNode(0);
     }
 
     // Update is called once per frame
@@ -45,6 +51,7 @@ public class Ai_Car : MonoBehaviour
         RayUpdate();
         MoveAiCar();
         UpdateMove();
+        UpdateDirection();
     }
 
     void RayUpdate()
@@ -52,17 +59,16 @@ public class Ai_Car : MonoBehaviour
         DistanceFL = Mathf.Infinity;
         DistanceFR = Mathf.Infinity;
 
+        // Init Ray Position
         Vector3 rayFrontPosition = this.transform.position;
         rayFrontPosition += (this.transform.forward * 1.0f);
         rayFrontL.origin = rayFrontPosition;
         rayFrontR.origin = rayFrontPosition;
 
-        Vector3 rayLeftPosition = this.transform.position;
-        rayL.origin = rayLeftPosition;
+        rayL.origin = this.transform.position;
         rayL.direction = -this.transform.right;
 
-        Vector3 rayRightPosition = this.transform.position;
-        rayR.origin = rayRightPosition;
+        rayR.origin = this.transform.position;
         rayR.direction = this.transform.right;
 
         // Calc Front Left Distance
@@ -99,6 +105,33 @@ public class Ai_Car : MonoBehaviour
         if (Physics.Raycast(rayR.origin, rayR.direction, out rayHitR, RayDistance))
             DistanceR = rayHitR.distance;
 
+        // Rotate Exception
+        // 벽과 충돌한 상태일때
+        if ((DistanceFL < 1.0f && DistanceFR < 1.0f) ||
+            DistanceFL == Mathf.Infinity || DistanceFR == Mathf.Infinity)
+        {
+            // 외적을 구한뒤 좌로 회전할지 우로 회전할지 결정합니다. (충돌로 속도가 줄어든 상태)
+            if (moveSpeed < 2.0f)
+            {
+                
+                Vector3 V0 = this.transform.forward;
+                Vector3 V1 = NextDirection;
+                Vector3 V2 = Vector3.Cross(V0, V1);
+
+                if (V2.y < 0)
+                    this.transform.rotation *= Quaternion.AngleAxis(-3.0f, Vector3.up);
+                else if (V2.y > 0)
+                    this.transform.rotation *= Quaternion.AngleAxis(3.0f, Vector3.up);
+            }
+        }
+
+        // 차량이 측면에 달라붙은 상황일때
+        if (DistanceL < 1.5f)
+            this.transform.rotation *= Quaternion.AngleAxis(0.4f, Vector3.up);
+        if (DistanceR < 1.5f)
+            this.transform.rotation *= Quaternion.AngleAxis(-0.4f, Vector3.up);
+
+        // Rotate standard
         if (Mathf.Abs(DistanceFL - DistanceFR) > 0.5f)
         {
             if (DistanceFL > DistanceFR)
@@ -106,10 +139,6 @@ public class Ai_Car : MonoBehaviour
             if (DistanceFR > DistanceFL)
                 this.transform.rotation *= Quaternion.AngleAxis(0.4f, Vector3.up);
         }
-        if (DistanceL < 1.5f)
-            this.transform.rotation *= Quaternion.AngleAxis(0.4f, Vector3.up);
-        if (DistanceR < 1.5f)
-            this.transform.rotation *= Quaternion.AngleAxis(-0.4f, Vector3.up);
 
     }
 
@@ -117,7 +146,6 @@ public class Ai_Car : MonoBehaviour
     {
         float moveDelta = this.moveSpeed * Time.deltaTime;
         Vector3 Direction = Vector3.forward;
-        Direction.y = 0;
         transform.Translate(Direction * moveDelta);
     }
 
@@ -129,6 +157,12 @@ public class Ai_Car : MonoBehaviour
             moveSpeed = CarMaxSpeed;
     }
 
+    void UpdateDirection()
+    {
+        NextDirection = nextPoint - this.transform.position;
+        NextDirection.Normalize();
+        NextDirection.y = 0;
+    }
     void CheckPoint(KeyValuePair<string, int> stData)
     {
         nextPoint = GameManager.Instance.GetNextNode(stData.Value);
@@ -148,6 +182,11 @@ public class Ai_Car : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawRay(rayL.origin, rayL.direction * RayDistance);
         Gizmos.DrawRay(rayR.origin, rayR.direction * RayDistance);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(this.transform.position, NextDirection * 5.0f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(this.transform.position, this.transform.forward * 5.0f);
     }
 
     Rect NextNodeArea = new Rect(300, 0, 200, 30);
