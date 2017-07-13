@@ -32,6 +32,7 @@ public class RaceMenu : MonoBehaviour {
         }
         if(GUI.Button(EndMenu,"메뉴 화면으로"))
         {
+            GameManager.Instance.NodeDic.Clear();
             SceneManager.LoadScene("StartMenu");
         }
     }

@@ -89,14 +89,14 @@ public class Control_Car : MonoBehaviour {
         }
     }
 
-    void CheckPoint(KeyValuePair<string, int> stData)
+    void ActiveCheckPoint(KeyValuePair<string, int> stData)
     {
-        Debug.Log("Check Point : " + stData.Value.ToString());
+        Debug.Log("Active Check Point : " + stData.Value.ToString());
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        fColTime = 2.0f;
+        fColTime = 0.0f;
     }
 
     private void OnCollisionStay(Collision collision)

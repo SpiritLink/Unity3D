@@ -43,8 +43,13 @@ public class ItemMelee : MonoBehaviour {
 
     void ActiveCheckPoint(GameObject other)
     {
-        other.SendMessage("CheckPoint", 
+        other.SendMessage("ActiveCheckPoint", 
             new KeyValuePair<string, int>(Name, Value));
+    }
+
+    void CheckPoint(GameObject other)
+    {
+        other.SendMessage("CheckPoint",Value);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,6 +66,7 @@ public class ItemMelee : MonoBehaviour {
                 if (meleeAction == MeleeAction.CheckPoint)
                 {
                     ActiveCheckPoint(other.gameObject);
+                    CheckPoint(other.gameObject);
                 }
                 break;
             case "Enemy":

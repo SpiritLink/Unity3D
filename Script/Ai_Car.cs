@@ -213,7 +213,7 @@ public class Ai_Car : MonoBehaviour
         if (ColTime >= 0)
             ColTime -= Time.deltaTime;
     }
-    void CheckPoint(KeyValuePair<string, int> stData)
+    void ActiveCheckPoint(KeyValuePair<string, int> stData)
     {
         nextPoint = GameManager.Instance.GetNextNode(stData.Value);
         // 자신의 아이디를 이용해 게임 매니저에 체크했다고 알림
