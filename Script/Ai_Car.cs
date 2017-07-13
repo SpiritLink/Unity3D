@@ -53,7 +53,7 @@ public class Ai_Car : MonoBehaviour
         rayR.origin = this.transform.position;
 
         ID = GameManager.Instance.GetID();
-        nextPoint = this.transform.position + this.transform.forward * 10.0f;
+        nextPoint = GameManager.Instance.GetNextNode(0);
     }
 
     // Update is called once per frame
@@ -126,7 +126,6 @@ public class Ai_Car : MonoBehaviour
             // 외적을 구한뒤 좌로 회전할지 우로 회전할지 결정합니다. (충돌로 속도가 줄어든 상태)
             if (moveSpeed < 4.0f)
             {
-                
                 Vector3 V0 = this.transform.forward;
                 Vector3 V1 = NextDirection;
                 Vector3 V2 = Vector3.Cross(V0, V1);
@@ -135,6 +134,9 @@ public class Ai_Car : MonoBehaviour
                     this.transform.rotation *= Quaternion.AngleAxis(-3.0f, Vector3.up);
                 else if (V2.y > 0)
                     this.transform.rotation *= Quaternion.AngleAxis(3.0f, Vector3.up);
+
+                // this.transform.rotation = Quaternion.LookRotation(NextDirection, Vector3.up);
+                // Quaternion.Lerp()를 이용해서 회전
             }
         }
 
