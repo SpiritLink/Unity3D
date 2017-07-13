@@ -58,7 +58,14 @@ public class ItemMelee : MonoBehaviour {
                     ActiveCheckPoint(other.gameObject);
                 }
                 break;
-                case "Enemy":
+            case "Player":
+                print("체크 포인트");
+                if (meleeAction == MeleeAction.CheckPoint)
+                {
+                    ActiveCheckPoint(other.gameObject);
+                }
+                break;
+            case "Enemy":
                     if (meleeType != MeleeType.Potion)
                     {
                         if (meleeAction == MeleeAction.ChangeHP)

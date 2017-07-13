@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Ai_Car : MonoBehaviour
 {
     // Ray 연산을 위한 변수
@@ -23,7 +22,21 @@ public class Ai_Car : MonoBehaviour
     private Vector3 nextPoint = new Vector3(0, 0, 0);
     private Vector3 NextDirection;
 
+    // 충돌 카운팅을 위한 변수
+    public int ColCnt = 0;
+    private float ColTime = 0.0f;
+
+    // 렌더 설정 변경을 위한 변수
+    private Renderer[] renderer;
+    public Color oriColor;
+    Material[] mat;
+
     // 임시 확인 변수
+
+    private void Awake()
+    {
+        renderer = GetComponentsInChildren<Renderer>();
+    }
 
     void Start()
     {
@@ -46,13 +59,14 @@ public class Ai_Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RayUpdate();
+        Update_Ray();
         MoveAiCar();
-        UpdateMove();
-        UpdateDirection();
+        Update_Move();
+        Update_Direction();
+        Update_Status();
     }
 
-    void RayUpdate()
+    void Update_Ray()
     {
         DistanceFL = Mathf.Infinity;
         DistanceFR = Mathf.Infinity;
@@ -162,7 +176,7 @@ public class Ai_Car : MonoBehaviour
         transform.Translate(Direction * moveDelta);
     }
 
-    void UpdateMove()
+    void Update_Move()
     {
         fTime += Time.deltaTime;
         moveSpeed = 1.0f + fTime * 2.0f;
@@ -170,11 +184,17 @@ public class Ai_Car : MonoBehaviour
             moveSpeed = CarMaxSpeed;
     }
 
-    void UpdateDirection()
+    void Update_Direction()
     {
         NextDirection = nextPoint - this.transform.position;
         NextDirection.Normalize();
         NextDirection.y = 0;
+    }
+
+    void Update_Status()
+    {
+        if (ColTime >= 0)
+            ColTime -= Time.deltaTime;
     }
     void CheckPoint(KeyValuePair<string, int> stData)
     {
@@ -185,6 +205,35 @@ public class Ai_Car : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         fTime = 1.0f;
+        if(collision.gameObject.tag == "Player" && ColTime <= 0)
+        {
+            ColTime = 0.5f;
+            ColCnt++;
+            switch(ColCnt)
+            {
+                case 0:
+                    break;
+                case 1:
+                    foreach (Renderer p in renderer)
+                        p.material.SetColor("_Color", Color.green);
+                    CarMaxSpeed = 10.0f;
+                    break;
+                case 2:
+                    foreach (Renderer p in renderer)
+                        p.material.SetColor("_Color", Color.yellow);
+                    CarMaxSpeed = 5.0f;
+                    break;
+                case 3:
+                    foreach (Renderer p in renderer)
+                        p.material.SetColor("_Color", Color.red);
+                    CarMaxSpeed = 1.0f;
+                    break;
+                default:
+                    foreach (Renderer p in renderer)
+                        p.material.SetColor("_Color", Color.red);
+                    break;
+            }
+        }
     }
 
     private void OnDrawGizmos()
