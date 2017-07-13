@@ -8,11 +8,22 @@ public class MoveFloor : MonoBehaviour {
     public float speedRotate = 10.0f;
 
     Rect GameStartArea = new Rect(0, 30, 200, 30);
+
+    Vector3 InitPosition;
+    Quaternion InitRotation;
     void Start () {
         GameManager.Instance.PlayTime = 0.0f;
+        InitPosition = this.transform.position;
+        InitRotation = this.transform.rotation;
 	}
-	
-	void Update () {
+
+    void Init()
+    {
+        this.transform.position = InitPosition;
+        this.transform.rotation = InitRotation;
+    }
+
+    void Update () {
         Move_Rotate();
     }
 

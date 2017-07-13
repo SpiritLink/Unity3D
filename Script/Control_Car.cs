@@ -18,12 +18,19 @@ public class Control_Car : MonoBehaviour {
     public float fStatusTime = 0.0f;
     public bool IsBoost = false;
 
+    // 초기값 저장을 위한 변수
+    Vector3 InitPosition;
+    Quaternion InitRotation;
+
 
 	// Use this for initialization
 	void Start () {
         GameManager.Instance.PlayTime = 0.0f;
         GameManager.Instance.IsGameRunning = true;
         ID = GameManager.Instance.GetID();
+
+        InitPosition = this.transform.position;
+        InitRotation = this.transform.rotation;
 
     }
 
@@ -35,6 +42,11 @@ public class Control_Car : MonoBehaviour {
         Update_Status();
     }
 
+    void Init()
+    {
+        this.transform.position = InitPosition;
+        this.transform.rotation = InitRotation;
+    }
     void Move_Speed()
     {
         float move = Input.GetAxis("Vertical");
@@ -84,11 +96,7 @@ public class Control_Car : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        fColTime = 0.0f;
-        MoveSpeed = 1.0f;
-        if(collision.gameObject.tag != "MapObject")
-            CollisionObjName = "CollisionEnter " + collision.gameObject.name;
-        print(CollisionObjName);
+        fColTime = 2.0f;
     }
 
     private void OnCollisionStay(Collision collision)

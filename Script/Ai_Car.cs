@@ -31,6 +31,10 @@ public class Ai_Car : MonoBehaviour
     public Color oriColor;
     Material[] mat;
 
+    // 초기값 저장을 위한 변수 (재시작 대비)
+    Vector3 InitPosition;
+    Quaternion InitRotation;
+
     // 임시 확인 변수
 
     private void Awake()
@@ -54,6 +58,9 @@ public class Ai_Car : MonoBehaviour
 
         ID = GameManager.Instance.GetID();
         nextPoint = GameManager.Instance.GetNextNode(0);
+
+        InitPosition = this.transform.position;
+        InitRotation = this.transform.rotation;
     }
 
     // Update is called once per frame
@@ -64,6 +71,13 @@ public class Ai_Car : MonoBehaviour
         Update_Move();
         Update_Direction();
         Update_Status();
+    }
+
+    void Init()
+    {
+        this.transform.position = InitPosition;
+        this.transform.rotation = InitRotation;
+        nextPoint = GameManager.Instance.GetNextNode(0);
     }
 
     void Update_Ray()
@@ -260,7 +274,7 @@ public class Ai_Car : MonoBehaviour
     Rect NextNodeArea = new Rect(300, 0, 200, 30);
     private void OnGUI()
     {
-        GUI.TextField(NextNodeArea, "Ai 다음 노드 : " + nextPoint.ToString());
+        //GUI.TextField(NextNodeArea, "Ai 다음 노드 : " + nextPoint.ToString());
     }
 
 }

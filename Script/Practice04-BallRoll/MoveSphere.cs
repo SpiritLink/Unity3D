@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class MoveSphere : MonoBehaviour {
 
-    Rect GravityTrueArea = new Rect(0, 30, 200, 30);
-    Rect GravityFalseArea = new Rect(0, 60, 200, 30);
+    //Rect GravityTrueArea = new Rect(0, 30, 200, 30);
+    //Rect GravityFalseArea = new Rect(0, 60, 200, 30);
 
+    Vector3 InitPosition;
+    Quaternion InitRotation;
     void Start () {
         GetComponent<Rigidbody>().useGravity = false;
+        InitPosition = this.transform.position;
+        InitRotation = this.transform.rotation;
     }
 
     void Update () {
 
+    }
+
+    void Init()
+    {
+        this.transform.position = InitPosition;
+        this.transform.rotation = InitRotation;
+        GetComponent<Rigidbody>().useGravity = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,15 +49,13 @@ public class MoveSphere : MonoBehaviour {
 
     private void OnGUI()
     {
-        if (GUI.Button(GravityTrueArea, "게임 시작"))
-        {
-            GameManager.Instance.IsGameRunning = true;
-            GameManager.Instance.PlayTime = 0.0f;
-            GetComponent<Rigidbody>().useGravity = true;
-        }
-        if(GUI.Button(GravityFalseArea, "Use Gravity False"))
-        {
-            GetComponent<Rigidbody>().useGravity = false;
-        }
+        //if (GUI.Button(GravityTrueArea, "게임 시작"))
+        //{
+        //    this.transform.position = InitPosition;
+        //}
+        //if(GUI.Button(GravityFalseArea, "Use Gravity False"))
+        //{
+        //    GetComponent<Rigidbody>().useGravity = false;
+        //}
     }
 }

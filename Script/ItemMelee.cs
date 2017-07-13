@@ -52,14 +52,12 @@ public class ItemMelee : MonoBehaviour {
         switch (other.gameObject.tag)
         {
             case "Car":
-                print("체크 포인트");
                 if (meleeAction == MeleeAction.CheckPoint)
                 {
                     ActiveCheckPoint(other.gameObject);
                 }
                 break;
             case "Player":
-                print("체크 포인트");
                 if (meleeAction == MeleeAction.CheckPoint)
                 {
                     ActiveCheckPoint(other.gameObject);
