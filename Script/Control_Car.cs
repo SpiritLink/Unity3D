@@ -80,7 +80,6 @@ public class Control_Car : MonoBehaviour {
     void CheckPoint(KeyValuePair<string, int> stData)
     {
         Debug.Log("Check Point : " + stData.Value.ToString());
-        GameManager.Instance.CheckPointDic[ID][stData.Value] = true;
     }
 
     private void OnCollisionEnter(Collision collision)
