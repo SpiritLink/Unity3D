@@ -18,7 +18,6 @@ public class Ai_Car : MonoBehaviour
     private float fTime = 0.0f;
 
     // Node 연산을 위한 변수
-    private int ID = -1;
     private Vector3 nextPoint = new Vector3(0, 0, 0);
     private Vector3 NextDirection;
 
@@ -56,7 +55,6 @@ public class Ai_Car : MonoBehaviour
         rayR = new Ray();
         rayR.origin = this.transform.position;
 
-        ID = GameManager.Instance.GetID();
         nextPoint = GameManager.Instance.GetNextNode(0);
 
         InitPosition = this.transform.position;
@@ -66,15 +64,21 @@ public class Ai_Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Update_Ray();
-        MoveAiCar();
-        Update_Move();
-        Update_Direction();
-        Update_Status();
+        if(GameManager.Instance.IsGameRunning)
+        {
+            Update_Ray();
+            MoveAiCar();
+            Update_Move();
+            Update_Direction();
+            Update_Status();
+        }
     }
 
     void Init()
     {
+        // 관성, 속도 제거
+        GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+        fTime = 0.0f;
         this.transform.position = InitPosition;
         this.transform.rotation = InitRotation;
         nextPoint = GameManager.Instance.GetNextNode(0);

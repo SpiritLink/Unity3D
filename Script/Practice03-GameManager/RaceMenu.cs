@@ -5,8 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class RaceMenu : MonoBehaviour {
 
+    // 버튼 위치
     Rect StartMenu = new Rect(0, 100, 100, 30);
     Rect EndMenu = new Rect(0, 130, 100, 30);
+
+    // 랩타임 저장
+    Dictionary<int, float> PrevLapTimeDic = new Dictionary<int, float>();
+    Dictionary<int, float> CurLapTImeDic = new Dictionary<int, float>();
+
+    // 레이싱 게임 관련 변수
+
 	void Start () {
 		
 	}
@@ -15,25 +23,58 @@ public class RaceMenu : MonoBehaviour {
 		
 	}
 
+    void Init()
+    {
+        PrevLapTimeDic.Clear();
+        CurLapTImeDic.Clear();
+    }
+
+    void LapTime(int ID)
+    {
+        float LapTime, GameTime;
+        GameTime = GameManager.Instance.PlayTime;
+        if(!PrevLapTimeDic.ContainsKey(ID))
+        {
+            PrevLapTimeDic[ID] = GameTime;
+            CurLapTImeDic[ID] = GameTime;
+        }
+        else
+        {
+            LapTime = GameTime - PrevLapTimeDic[ID];
+            PrevLapTimeDic[ID] = GameTime;
+            if (CurLapTImeDic[ID] > LapTime)
+                CurLapTImeDic[ID] = LapTime;
+        }
+    }
+
     private void OnGUI()
     {
-        if(GUI.Button(StartMenu,"재시작"))
+        // 완주했으면 메뉴를 띄움
+        if(!GameManager.Instance.IsGameRunning)
         {
-            GameObject.Find("AiCar (1)").SendMessage("Init");
-            GameObject.Find("AiCar (2)").SendMessage("Init");
-            GameObject.Find("AiCar (3)").SendMessage("Init");
-            GameObject.Find("AiCar (4)").SendMessage("Init");
-            GameObject.Find("AiCar (5)").SendMessage("Init");
+            if (GUI.Button(StartMenu, "재시작"))
+            {
+                GameObject.Find("AiCar (1)").SendMessage("Init");
+                GameObject.Find("AiCar (2)").SendMessage("Init");
+                GameObject.Find("AiCar (3)").SendMessage("Init");
+                //GameObject.Find("AiCar (4)").SendMessage("Init");
+                //GameObject.Find("AiCar (5)").SendMessage("Init");
 
-            GameObject.Find("MyCar").SendMessage("Init");
-
-            GameManager.Instance.PlayTime = 0.0f;
-            //SceneManager.LoadScene("Practice03-GameManager");
+                GameObject.Find("MyCar").SendMessage("Init");
+                Init();
+                GameManager.Instance.PlayTime = 0.0f;
+                GameManager.Instance.IsGameRunning = true;
+            }
+            if (GUI.Button(EndMenu, "메뉴 화면으로"))
+            {
+                GameManager.Instance.NodeDic.Clear();
+                SceneManager.LoadScene("StartMenu");
+            }
         }
-        if(GUI.Button(EndMenu,"메뉴 화면으로"))
+
+        foreach (KeyValuePair<int, float> p in CurLapTImeDic)
         {
-            GameManager.Instance.NodeDic.Clear();
-            SceneManager.LoadScene("StartMenu");
+            GUI.TextField(new Rect(0, (p.Key + 3) * 30, 100, 30), p.Value.ToString());
         }
     }
 }

@@ -29,10 +29,11 @@ public class GameManager : MonoBehaviour {
 
     // 노드 관리를 위한 변수
     public Dictionary<int, GameObject> NodeDic = new Dictionary<int, GameObject>();
-    public Dictionary<int, Dictionary<int, bool>> CheckPointDic = new Dictionary<int, Dictionary<int, bool>>();
-
     public float PlayTime = 0.0f;
     int ID = 0;
+
+    // 랩타임을 위한 변수
+    public Dictionary<int, float> DicLapTime = new Dictionary<int, float>();
 
     //스타트보다 먼저 실행되는 함수 (한번 호출이후 다시 호출되지는 않음)
     private void Awake()

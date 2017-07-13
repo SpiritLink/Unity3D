@@ -60,6 +60,7 @@ public class ItemMelee : MonoBehaviour {
                 if (meleeAction == MeleeAction.CheckPoint)
                 {
                     ActiveCheckPoint(other.gameObject);
+                    CheckPoint(other.gameObject);
                 }
                 break;
             case "Player":
