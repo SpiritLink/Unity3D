@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Renderer))]    // 이 스크립트 사용을 위해서는 Renderer가 필요하다.
 public class MaterialTest : MonoBehaviour {
@@ -84,6 +85,12 @@ public class MaterialTest : MonoBehaviour {
             mat.DisableKeyword("_ALPHABLEND_ON");
             mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
             mat.renderQueue = 3000;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            //Application.LoadLevel("Practice03-GameManager");    // << : 구버전
+            SceneManager.LoadScene("Practice03-GameManager");
         }
     }
 }
