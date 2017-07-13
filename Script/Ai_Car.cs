@@ -68,6 +68,7 @@ public class Ai_Car : MonoBehaviour
 
     void Update_Ray()
     {
+        int LayerMask = ~(1 << 9);
         DistanceFL = Mathf.Infinity;
         DistanceFR = Mathf.Infinity;
 
@@ -88,7 +89,7 @@ public class Ai_Car : MonoBehaviour
         {
             Quaternion RotR = Quaternion.Euler(0.0f, 15.0f * iter, 0.0f);
             rayFrontR.direction = RotR * this.transform.forward;
-            if(Physics.Raycast(rayFrontR.origin, rayFrontR.direction, out rayHitFrontR, RayDistance))
+            if(Physics.Raycast(rayFrontR.origin, rayFrontR.direction, out rayHitFrontR, RayDistance, LayerMask))
             {
                 if (DistanceFR < rayHitFrontR.distance)
                     continue;
@@ -101,7 +102,7 @@ public class Ai_Car : MonoBehaviour
         {
             Quaternion RotL = Quaternion.Euler(0.0f, -15.0f * iter, 0.0f);
             rayFrontL.direction = RotL * this.transform.forward;
-            if(Physics.Raycast(rayFrontL.origin, rayFrontL.direction, out rayHitFrontL, RayDistance))
+            if(Physics.Raycast(rayFrontL.origin, rayFrontL.direction, out rayHitFrontL, RayDistance, LayerMask))
             {
                 if (DistanceFL < rayHitFrontL.distance)
                     continue;
@@ -110,11 +111,11 @@ public class Ai_Car : MonoBehaviour
         }
 
         // Calc Left Distance
-        if (Physics.Raycast(rayL.origin, rayL.direction, out rayHitL, RayDistance))
+        if (Physics.Raycast(rayL.origin, rayL.direction, out rayHitL, RayDistance, LayerMask))
             DistanceL = rayHitL.distance;
 
         // Clac Right Distance
-        if (Physics.Raycast(rayR.origin, rayR.direction, out rayHitR, RayDistance))
+        if (Physics.Raycast(rayR.origin, rayR.direction, out rayHitR, RayDistance, LayerMask))
             DistanceR = rayHitR.distance;
 
         // Rotate Exception
