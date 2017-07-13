@@ -18,16 +18,19 @@ public class BallRollMenu : MonoBehaviour {
 
     private void OnGUI()
     {
-        if(GUI.Button(StartGame,"게임 시작"))
+        if(!GameManager.Instance.IsGameRunning)
         {
-            GameManager.Instance.IsGameRunning = true;
-            GameManager.Instance.PlayTime = 0.0f;
-            GameObject.Find("Sphere").SendMessage("Init");
-            GameObject.Find("Floor").SendMessage("Init");
-        }
-        if (GUI.Button(QuitGame,"게임 종료"))
-        {
-            SceneManager.LoadScene("StartMenu");
+            if (GUI.Button(StartGame, "게임 시작"))
+            {
+                GameManager.Instance.IsGameRunning = true;
+                GameManager.Instance.PlayTime = 0.0f;
+                GameObject.Find("Sphere").SendMessage("Init");
+                GameObject.Find("Floor").SendMessage("Init");
+            }
+            if (GUI.Button(QuitGame, "게임 종료"))
+            {
+                SceneManager.LoadScene("StartMenu");
+            }
         }
     }
 }
