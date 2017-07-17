@@ -4,22 +4,38 @@ using UnityEngine;
 
 public class Move_TankBody : MonoBehaviour {
 
-	// Use this for initialization
+    [Range(3, 10)]
+    public float fMoveSpeed = 3.0f;
+    [Range(100, 200)]
+    public float fRotateSpeed = 100.0f;
+
+    // 초기값 저장을 위한 변수
+    Vector3 InitPosition;
+    Quaternion InitRotation;
+
 	void Start () {
-		
+        InitPosition = this.transform.position;
+        InitRotation = this.transform.rotation;
 	}
 	
-	// Update is called once per frame
 	void Update () {
-        // 이렇게 하면 프레임에 따른 속도 변화 발생, 변경해야 한다.
-        if(Input.GetKeyDown(KeyCode.W))
-        {
+        Move_Speed();
+        Move_Rotate();
+    }
 
-        }
+    void Move_Speed()
+    {
+        float move = Input.GetAxis("Vertical");
+        move = move * fMoveSpeed * Time.deltaTime;
 
-        if(Input.GetKeyDown(KeyCode.S))
-        {
+        Vector3 Direction = Vector3.forward;
+        gameObject.transform.Translate(Direction * move);
+    }
 
-        }
-	}
+    void Move_Rotate()
+    {
+        float rotate = Input.GetAxis("Horizontal");
+        rotate = rotate * fRotateSpeed * Time.deltaTime;
+        gameObject.transform.Rotate(Vector3.up * rotate);
+    }
 }

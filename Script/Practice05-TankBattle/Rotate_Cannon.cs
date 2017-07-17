@@ -4,19 +4,37 @@ using UnityEngine;
 
 public class Rotate_Cannon : MonoBehaviour {
 
-    Vector3 BasicPosition;
-    float fRotation = 0.0f;
-	// Use this for initialization
+    public GameObject pParent;
+    public float fRotateSpeed = 100.0f;
+    public float fAngle = 0.0f;
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
-	}
+        Move_RotateUpDown();
+    }
 
-    void RotateCannon(float Value)
+    void Move_RotateUpDown()
     {
-        fRotation = Mathf.Clamp(fRotation + Value, -5.0f, 5.0f);
+        if (Input.GetKey(KeyCode.R))
+        {
+            if (fAngle >30.0f) return;
+            float rotate = fRotateSpeed * Time.deltaTime;
+            gameObject.transform.RotateAround(pParent.transform.position, pParent.transform.right, -rotate);
+            fAngle += rotate;
+        }
+
+        if (Input.GetKey(KeyCode.F))
+        {
+            if (fAngle < 0.0f) return;
+            float rotate = fRotateSpeed * Time.deltaTime;
+            gameObject.transform.RotateAround(pParent.transform.position, pParent.transform.right, rotate);
+            fAngle -= rotate;
+        }
+    }
+    void RotateLR(float fAngle)
+    {
+        gameObject.transform.RotateAround(pParent.transform.position, Vector3.up, fAngle);
     }
 }
