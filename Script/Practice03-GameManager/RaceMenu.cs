@@ -13,6 +13,9 @@ public class RaceMenu : MonoBehaviour {
     Dictionary<int, float> PrevLapTimeDic = new Dictionary<int, float>();
     Dictionary<int, float> CurLapTImeDic = new Dictionary<int, float>();
 
+    // 충돌차량 저장
+    int ColCnt = 0;
+
     // 레이싱 게임 관련 변수
 
 	void Start () {
@@ -27,6 +30,11 @@ public class RaceMenu : MonoBehaviour {
     {
         PrevLapTimeDic.Clear();
         CurLapTImeDic.Clear();
+    }
+
+    void AddColCnt()
+    {
+        ColCnt++;
     }
 
     void LapTime(int ID)
@@ -47,6 +55,7 @@ public class RaceMenu : MonoBehaviour {
         }
     }
 
+    Rect ColCntArea = new Rect(300, 0, 100, 30);
     private void OnGUI()
     {
         // 완주했으면 메뉴를 띄움
@@ -70,6 +79,8 @@ public class RaceMenu : MonoBehaviour {
                 GameManager.Instance.NodeDic.Clear();
                 SceneManager.LoadScene("StartMenu");
             }
+
+            GUI.TextField(ColCntArea, "파괴차량 : " + ColCnt.ToString());
         }
 
         foreach (KeyValuePair<int, float> p in CurLapTImeDic)

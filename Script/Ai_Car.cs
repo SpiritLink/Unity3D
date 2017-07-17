@@ -82,6 +82,7 @@ public class Ai_Car : MonoBehaviour
         this.transform.position = InitPosition;
         this.transform.rotation = InitRotation;
         nextPoint = GameManager.Instance.GetNextNode(0);
+        ColCnt = 0;
     }
 
     void Update_Ray()
@@ -248,6 +249,7 @@ public class Ai_Car : MonoBehaviour
                     foreach (Renderer p in renderer)
                         p.material.SetColor("_Color", Color.red);
                     CarMaxSpeed = 1.0f;
+                    GameObject.Find("Menu").SendMessage("AddColCnt");
                     break;
                 default:
                     foreach (Renderer p in renderer)
