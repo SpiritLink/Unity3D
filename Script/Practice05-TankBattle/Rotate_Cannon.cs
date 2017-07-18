@@ -12,26 +12,22 @@ public class Rotate_Cannon : MonoBehaviour {
 	}
 	
 	void Update () {
-        Move_RotateUpDown();
     }
 
-    void Move_RotateUpDown()
+    void Rotate_Cannon_Up()
     {
-        if (Input.GetKey(KeyCode.R))
-        {
-            if (fAngle >30.0f) return;
-            float rotate = fRotateSpeed * Time.deltaTime;
-            gameObject.transform.RotateAround(pParent.transform.position, pParent.transform.right, -rotate);
-            fAngle += rotate;
-        }
+        if (fAngle > 30.0f) return;
+        float rotate = fRotateSpeed * Time.deltaTime;
+        gameObject.transform.RotateAround(pParent.transform.position, pParent.transform.right, -rotate);
+        fAngle += rotate;
+    }
 
-        if (Input.GetKey(KeyCode.F))
-        {
-            if (fAngle < 0.0f) return;
-            float rotate = fRotateSpeed * Time.deltaTime;
-            gameObject.transform.RotateAround(pParent.transform.position, pParent.transform.right, rotate);
-            fAngle -= rotate;
-        }
+    void Rotate_Cannon_Down()
+    {
+        if (fAngle < 0.0f) return;
+        float rotate = fRotateSpeed * Time.deltaTime;
+        gameObject.transform.RotateAround(pParent.transform.position, pParent.transform.right, rotate);
+        fAngle -= rotate;
     }
     void RotateLR(float fAngle)
     {
