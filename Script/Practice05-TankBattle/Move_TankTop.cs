@@ -21,23 +21,12 @@ public class Move_TankTop : MonoBehaviour {
 	}
 	
 	void Update () {
-        Move_Rotate();
     }
 
-    void Move_Rotate()
+    void Move_Rotate_Top(float Value)
     {
-        if (Input.GetKey(KeyCode.Q))
-        {
-            float rotate = fRotateSpeed * Time.deltaTime * -1;
+            float rotate = fRotateSpeed * Time.deltaTime * Value;
             gameObject.transform.Rotate(Vector3.up * rotate);
             pChild.SendMessage("RotateLR", rotate);
-        }
-
-        if (Input.GetKey(KeyCode.E))
-        {
-            float rotate = fRotateSpeed * Time.deltaTime;
-            gameObject.transform.Rotate(Vector3.up * rotate);
-            pChild.SendMessage("RotateLR", rotate);
-        }
     }
 }

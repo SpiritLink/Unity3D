@@ -14,15 +14,16 @@ public class Fire_Missile : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Vector3 TargetPos = this.transform.position + this.transform.up * fFront;
-            GameObject target = Instantiate(pTarget, TargetPos, transform.rotation);
-
-            Vector3 Power = this.transform.up * fPower;
-            target.GetComponent<Rigidbody>().AddForce(Power);
-        }
 	}
+
+    void FireMissile()
+    {
+        Vector3 TargetPos = this.transform.position + this.transform.up * fFront;
+        GameObject target = Instantiate(pTarget, TargetPos, transform.rotation);
+
+        Vector3 Power = this.transform.up * fPower;
+        target.GetComponent<Rigidbody>().AddForce(Power);
+    }
 
     private void OnDrawGizmos()
     {

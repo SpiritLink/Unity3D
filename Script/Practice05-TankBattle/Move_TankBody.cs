@@ -19,22 +19,20 @@ public class Move_TankBody : MonoBehaviour {
 	}
 	
 	void Update () {
-        Move_Speed();
-        Move_Rotate();
     }
 
-    void Move_Speed()
+    void Move_Speed(float Value)
     {
-        float move = Input.GetAxis("Vertical");
+        float move = Value;
         move = move * fMoveSpeed * Time.deltaTime;
 
         Vector3 Direction = Vector3.forward;
         gameObject.transform.Translate(Direction * move);
     }
 
-    void Move_Rotate()
+    void Move_Rotate_Body(float Value)
     {
-        float rotate = Input.GetAxis("Horizontal");
+        float rotate = Value;
         rotate = rotate * fRotateSpeed * Time.deltaTime;
         gameObject.transform.Rotate(Vector3.up * rotate);
     }
