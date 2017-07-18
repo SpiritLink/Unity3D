@@ -7,8 +7,8 @@ public class Ai_Tank : MonoBehaviour {
     public GameObject pTarget;
     private float fFireTime;
 
-    [Range(0, 1)]
-    public float fMaxDot = 0.0f;
+    [Range(0.6f, 1)]
+    public float fMaxDot = 0.6f;
     public float fDot;
     public Vector3 fCross;
 
@@ -17,6 +17,7 @@ public class Ai_Tank : MonoBehaviour {
         fFireTime = 0.0f;
         fDot = 0.0f;
         fCross = new Vector3(0, 0, 0);
+        fMaxDot = 0.6f;
     }
 	
 	void Update () {
@@ -80,13 +81,11 @@ public class Ai_Tank : MonoBehaviour {
         Gizmos.color = Color.cyan;
         Gizmos.DrawRay(this.transform.position, this.transform.forward * 5.0f);
 
-        Gizmos.color = Color.yellow;
-
-        //float fDegree = 90.0f * (1 - fMaxDot); 
+        // Draw Rader (Body)
+        Gizmos.color = Color.green;
         float fDegree = Mathf.Acos(fMaxDot) * Mathf.Rad2Deg;
         Vector3 DirL = Quaternion.AngleAxis(-fDegree, this.transform.up) * this.transform.forward;
         Gizmos.DrawRay(this.transform.position, DirL * 10.0f);
-
         Vector3 DirR = Quaternion.AngleAxis(fDegree, this.transform.up) * this.transform.forward;
         Gizmos.DrawRay(this.transform.position, DirR * 10.0f);
     }
