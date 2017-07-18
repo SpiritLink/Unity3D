@@ -27,7 +27,7 @@ public class Fire_Missile : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(this.transform.position, this.transform.up * 2.0f);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawRay(this.transform.position, this.transform.up * 2.0f);
     }
 }
