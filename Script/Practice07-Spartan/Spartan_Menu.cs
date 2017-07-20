@@ -13,6 +13,7 @@ public class Spartan_Menu : MonoBehaviour {
     Rect ObjCntArea = new Rect(0, 30, 100, 30);
     Rect GameStart = new Rect(0, 60, 100, 30);
     Rect IsRunningArea = new Rect(0, 90, 100, 30);
+    Rect MaxCntArea = new Rect(100, 0, 130, 30);
     
 	void Start () {
         Update_Time();
@@ -64,8 +65,8 @@ public class Spartan_Menu : MonoBehaviour {
     {
         GUI.TextField(TimeArea, fTime.ToString());
         GUI.TextField(ObjCntArea, ObjCnt.ToString());
-
-        if(!IsRunning)
+        GUI.TextField(MaxCntArea, MaxObjCnt.ToString() + "개가 넘으면 끝 !");
+        if (!IsRunning)
             GUI.TextField(IsRunningArea, "게임 종료!");
 
         if (GUI.Button(GameStart, "게임 시작"))

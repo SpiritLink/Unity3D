@@ -22,7 +22,7 @@ public class SpartanControl : MonoBehaviour {
         gameObject.SendMessage("SetH", h);
         gameObject.SendMessage("SetV", v);
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Space))
             gameObject.SendMessage("Attack");
     }
 #region 구버전 코드
