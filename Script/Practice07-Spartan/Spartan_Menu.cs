@@ -8,7 +8,6 @@ public class Spartan_Menu : MonoBehaviour {
     public bool IsRunning = false;
     public int MaxObjCnt = 5;
     private int ObjCnt = 0;
-    private int ObjResult = 0;
 
     Rect TimeArea = new Rect(0, 0, 100, 30);
     Rect ObjCntArea = new Rect(0, 30, 100, 30);
@@ -24,21 +23,26 @@ public class Spartan_Menu : MonoBehaviour {
         Update_Time();
     }
 
+    void InitData()
+    {
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("MapObject");
+        foreach (GameObject pTarget in objs)
+            Destroy(pTarget);
+        fTime = 0.0f;
+        IsRunning = true;
+        ObjCnt = 0;
+        GameObject.Find("Spawner").SendMessage("SetIsRunning", true);
+    }
     void Update_Time()
     {
-        if (!IsRunning)
-            return;
+        if (!IsRunning) return;
 
         fTime += Time.deltaTime;
     }
 
     void QuitGame()
     {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("MapObject");
         IsRunning = false;
-        ObjCnt = 0;
-        foreach (GameObject pTarget in objs)
-            Destroy(pTarget);
         GameObject.Find("Spawner").SendMessage("SetIsRunning", false);
     }
 
@@ -50,7 +54,6 @@ public class Spartan_Menu : MonoBehaviour {
             QuitGame();
             return;
         }
-        ObjResult = ObjCnt;
     }
 
     void SubCnt()
@@ -60,16 +63,12 @@ public class Spartan_Menu : MonoBehaviour {
     private void OnGUI()
     {
         GUI.TextField(TimeArea, fTime.ToString());
-        GUI.TextField(ObjCntArea, ObjResult.ToString());
+        GUI.TextField(ObjCntArea, ObjCnt.ToString());
+
         if(!IsRunning)
-        {
             GUI.TextField(IsRunningArea, "게임 종료!");
-        }
+
         if (GUI.Button(GameStart, "게임 시작"))
-        {
-            fTime = 0.0f;
-            IsRunning = true;
-            GameObject.Find("Spawner").SendMessage("SetIsRunning", true);
-        }
+            InitData();
     }
 }

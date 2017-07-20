@@ -207,10 +207,12 @@ public class SpartanControl : MonoBehaviour {
 
         if (!IsIdle) return;
 
-        // Move
-        tr.position = Vector3.Slerp(tr.position, tr.position + MoveDir * runSpeed, 0.01f);
-        pcControl.SimpleMove(MoveDir.normalized);
-        //pcControl.SimpleMove(MoveDir.normalized * Time.deltaTime * runSpeed);
+        // Move (Slerp)
+        //tr.position = Vector3.Slerp(tr.position, tr.position + MoveDir * runSpeed, 0.01f);//(Time.time - startTime) / journeyTime);
+        //pcControl.SimpleMove(MoveDir.normalized);
+
+        // Move (SimpleMove)
+        pcControl.SimpleMove(MoveDir.normalized * Time.deltaTime * runSpeed);
 
         // Rotate
         tr.LookAt(tr.position + MoveDir);
