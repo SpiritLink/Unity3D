@@ -34,6 +34,7 @@ public class Spartan : MonoBehaviour {
         spartanKing.wrapMode = WrapMode.Loop;
         IsIdle = true;
         startTime = Time.time;
+        pWeapon.gameObject.SetActive(false);
 
         tr = this.gameObject.GetComponent<Transform>();
     }
