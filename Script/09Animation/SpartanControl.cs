@@ -25,7 +25,17 @@ public class SpartanControl : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space))
             gameObject.SendMessage("Attack");
     }
-#region 구버전 코드
+
+    Rect hArea = new Rect(200, 0, 50, 30);
+    Rect vArea = new Rect(200, 30, 50, 30);
+    private void OnGUI()
+    {
+        GUI.TextField(hArea, "h:" + h.ToString());
+        GUI.TextField(vArea, "v:" + v.ToString());
+    }
+
+
+    #region 구버전 코드
     //private void AnimationPlay_1()
     //{
     //    if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -157,5 +167,5 @@ public class SpartanControl : MonoBehaviour {
     //    spartanKing.CrossFade(anim2, 0.3f);
     //    Debug.Log(anim2);
     //}
-#endregion
+    #endregion
 }

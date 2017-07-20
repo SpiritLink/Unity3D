@@ -61,6 +61,8 @@ public class Spartan : MonoBehaviour {
 
     void Attack()
     {
+        if (spartanKing.IsPlaying("attack"))
+            return;
         IsIdle = false;
         pWeapon.gameObject.SetActive(true);
         spartanKing.wrapMode = WrapMode.Once;

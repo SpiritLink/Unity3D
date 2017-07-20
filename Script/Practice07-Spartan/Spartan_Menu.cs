@@ -16,7 +16,6 @@ public class Spartan_Menu : MonoBehaviour {
     Rect MaxCntArea = new Rect(100, 0, 130, 30);
     
 	void Start () {
-        Update_Time();
 
     }
 	
@@ -34,6 +33,7 @@ public class Spartan_Menu : MonoBehaviour {
         ObjCnt = 0;
         GameObject.Find("Spawner").SendMessage("SetIsRunning", true);
     }
+
     void Update_Time()
     {
         if (!IsRunning) return;

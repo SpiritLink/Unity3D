@@ -7,12 +7,10 @@ public class Spawner_Spartan : MonoBehaviour {
 
 	void Start ()
     {
-
     }
 	
 	void Update () {
-		
-	}
+    }
 
     void AddObjCnt()
     {
