@@ -6,8 +6,8 @@ public class Move_TankBody : MonoBehaviour {
 
     [Range(3, 10)]
     public float fMoveSpeed = 3.0f;
-    [Range(30, 100)]
-    public float fRotateSpeed = 30.0f;
+    [Range(10, 50)]
+    public float fRotateSpeed = 10;
 
     // 초기값 저장을 위한 변수
     Vector3 InitPosition;
@@ -16,7 +16,9 @@ public class Move_TankBody : MonoBehaviour {
 	void Start () {
         InitPosition = this.transform.position;
         InitRotation = this.transform.rotation;
-	}
+        fRotateSpeed = 10;
+
+    }
 	
 	void Update () {
     }
