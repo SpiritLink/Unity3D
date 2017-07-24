@@ -21,7 +21,7 @@ public class MecanimControl : MonoBehaviour {
 	
 	void Update () {
         CharacterControl_Slerp();
-        Keyboard();
+        Input_Animation();
 	}
 
     private void CharacterControl_Slerp()
@@ -38,17 +38,69 @@ public class MecanimControl : MonoBehaviour {
             transform.LookAt(transform.position + forward);
         }
 
-        pcController.Move(direction * runSpeed * Time.deltaTime);
+        pcController.Move(direction * runSpeed * Time.deltaTime + Physics.gravity);
     } // << : CharacterControl_Slerp()
 
-    void Keyboard()
+    public bool IsHandUp = false;
+    void Input_Animation()
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("attack")) return;
-            if (animator.GetCurrentAnimatorStateInfo(1).IsName("attack")) return;
-
+            
             animator.SetTrigger("Attack_Trigger");
+            StartCoroutine(Attack_Routine());
         }
+
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            StartCoroutine(Slide_ing());
+        }
+
+        if(Input.GetMouseButtonDown(0) && !IsHandUp)
+        {
+            IsHandUp = true;
+            animator.SetBool("IsHandUp", IsHandUp);
+            StartCoroutine(HandUp_Routine());
+        }
+    } // << : Keyboard
+
+    IEnumerator Attack_Routine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        BroadcastMessage("Generate");
     }
+
+    IEnumerator Slide_ing()
+    {
+        animator.SetBool("IsSliding", true);
+        yield return new WaitForSeconds(0.3f);
+
+        while(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + 0.3f < 1.0f)
+        {
+            // normalize TIme 은 0 ~ 1.0 까지임
+            yield return null;
+        }
+
+        animator.SetBool("IsSliding", false);
+    }
+
+    IEnumerator HandUp_Routine()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(0.0f);
+
+            if (IsHandUp && animator.GetCurrentAnimatorStateInfo(1).IsName("UpperBody.HandUp"))
+            {
+                if (animator.GetCurrentAnimatorStateInfo(1).normalizedTime >= 1.0f)
+                {
+                    // 현재 여기를 안들어감
+                    IsHandUp = false;
+                    animator.SetBool("IsHandUp", IsHandUp);
+                    break;
+                }
+            } // << : if
+        } // << : while
+    } // << : func
 }
