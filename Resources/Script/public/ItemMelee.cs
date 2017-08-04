@@ -13,11 +13,12 @@ public class ItemMelee : MonoBehaviour {
     public MeleeAction meleeAction = MeleeAction.None;
     public MeleeType meleeType = MeleeType.None;
 
-	void Start () {
-		if(meleeAction == MeleeAction.CheckPoint &&
-            meleeType == MeleeType.Node)
-        {
-        }
+    void OnEnable()
+    {
+        if(meleeAction == MeleeAction.CheckPoint && meleeType == MeleeType.Node)
+            GameObject.Find("NodeManager").GetComponent<NodeManager_CarGame>().AddNode(Value, this.gameObject);
+    }
+    void Start () {
 	}
 	
 	void Update () {

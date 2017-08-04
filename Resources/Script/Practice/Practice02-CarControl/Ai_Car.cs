@@ -57,6 +57,8 @@ public class Ai_Car : MonoBehaviour
 
         InitPosition = this.transform.position;
         InitRotation = this.transform.rotation;
+
+        nextPoint = GameObject.Find("NodeManager").GetComponent<NodeManager_CarGame>().GetNode(1);
     }
 
     // Update is called once per frame
@@ -215,6 +217,7 @@ public class Ai_Car : MonoBehaviour
         if (ColTime >= 0)
             ColTime -= Time.deltaTime;
     }
+
     void ActiveCheckPoint(KeyValuePair<string, int> stData)
     {
     }
@@ -270,12 +273,6 @@ public class Ai_Car : MonoBehaviour
         Gizmos.DrawRay(this.transform.position, NextDirection * 5.0f);
         Gizmos.color = Color.red;
         Gizmos.DrawRay(this.transform.position, this.transform.forward * 5.0f);
-    }
-
-    Rect NextNodeArea = new Rect(300, 0, 200, 30);
-    private void OnGUI()
-    {
-        //GUI.TextField(NextNodeArea, "Ai 다음 노드 : " + nextPoint.ToString());
     }
 
 }

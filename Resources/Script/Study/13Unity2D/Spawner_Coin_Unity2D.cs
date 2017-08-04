@@ -7,11 +7,9 @@ public class Spawner_Coin_Unity2D : MonoBehaviour {
     public GameObject pCoin;
 
 	void Start () {
-		
 	}
 	
 	void Update () {
-		
 	}
 
     IEnumerator GenerateCoin(Vector3 Position)

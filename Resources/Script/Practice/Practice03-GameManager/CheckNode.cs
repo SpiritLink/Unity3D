@@ -5,12 +5,15 @@ using UnityEngine;
 public class CheckNode : MonoBehaviour {
 
     public int ID = -1;
-    Dictionary<int, bool> CheckPointDic = new Dictionary<int, bool>();
-	// Use this for initialization
-	void Start () {
+    Dictionary<int, bool> CheckPointDic;
+
+    private void Awake()
+    {
+        CheckPointDic = new Dictionary<int, bool>();
+    }
+    void Start () {
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
@@ -20,6 +23,7 @@ public class CheckNode : MonoBehaviour {
         CheckPointDic[Value] = true;
         Debug.Log("CheckPointDic[" + Value.ToString() + "] = true");
 
+        if(CheckPointDic.Count == GameObject.Find("NodeManager").GetComponent<NodeManager_CarGame>().GetNodeCnt())
         {
             CheckPointDic.Clear();
             Debug.Log("DicClear");

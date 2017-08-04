@@ -9,6 +9,6 @@ public class Explosion_Unity2D : MonoBehaviour {
 	}
 	
 	void Update () {
-		
 	}
+
 }
