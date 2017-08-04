@@ -38,6 +38,15 @@ public class DefaultUI : MonoBehaviour {
     public GameObject objToggleGroup;
     Toggle[] toggleRadio;
 
+    // BGM Variable (For Change BGM)
+    public GameObject MapObject;
+    private AudioSource audioSource;
+
+    public AudioClip BGM1;
+    public AudioClip BGM2;
+    public AudioClip BGM3;
+
+
     private void Awake()
     {
         GameManager.Instance.IsGameRunning = true;
@@ -56,6 +65,7 @@ public class DefaultUI : MonoBehaviour {
 
         toggleRadio = objToggleGroup.GetComponentsInChildren<Toggle>();
 
+        audioSource = MapObject.GetComponent<AudioSource>();
         txtNickname.text = GameManager.Instance.Nickname;
     }
     void Start () {
@@ -183,14 +193,20 @@ public class DefaultUI : MonoBehaviour {
         if(toggleRadio[0].isOn)
         {
             Debug.Log("Radio 0 - Checked");
+            audioSource.clip = BGM1;
+            audioSource.Play();
         }
         else if(toggleRadio[1].isOn)
         {
             Debug.Log("Radio 1 - Checked");
+            audioSource.clip = BGM2;
+            audioSource.Play();
         }
         else if(toggleRadio[2].isOn)
         {
             Debug.Log("Radio 2 - Checked");
+            audioSource.clip = BGM3;
+            audioSource.Play();
         }
     }
 
@@ -200,19 +216,25 @@ public class DefaultUI : MonoBehaviour {
         switch(Type)
         {
             case "BGM":
-                if (!toggleBGM.isOn)
-                    toggleBGM.isOn = true;
                 SoundManager.Instance.ChangeVolume("MapObject", sliderBGM.value);
+                if (sliderBGM.value == 0.0f)
+                    toggleBGM.isOn = false;
+                else
+                    toggleBGM.isOn = true;
                 break;
             case "Player":
-                if (!togglePlayer.isOn)
-                    togglePlayer.isOn = true;
                 SoundManager.Instance.ChangeVolume("Player", sliderPlayer.value);
+                if (sliderPlayer.value == 0.0f)
+                    togglePlayer.isOn = false;
+                else
+                    togglePlayer.isOn = true;
                 break;
             case "Enemy":
-                if (!toggleEnemy.isOn)
-                    toggleEnemy.isOn = true;
                 SoundManager.Instance.ChangeVolume("Enemy", sliderEnemy.value);
+                if (sliderEnemy.value == 0.0f)
+                    toggleEnemy.isOn = false;
+                else
+                    toggleEnemy.isOn = true;
                 break;
         }
     }
