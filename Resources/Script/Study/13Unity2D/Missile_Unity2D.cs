@@ -7,8 +7,8 @@ public class Missile_Unity2D : MonoBehaviour {
     public GameObject pEffect;
 
     public float MoveSpeed = 0.0f;
-
     private int Direction = 0;
+
 	void Start () {
         Destroy(this.gameObject, 5.0f);
 	}

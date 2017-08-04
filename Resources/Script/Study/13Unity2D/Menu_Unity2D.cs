@@ -5,14 +5,10 @@ using UnityEngine;
 public class Menu_Unity2D : MonoBehaviour {
 
     private int Score;
-    public AudioClip GetCoin;
-    private AudioSource audioSource;
-
     public GameObject pPlayer;
     public GameObject pUI;
 
 	void Start () {
-        audioSource = GetComponent<AudioSource>();
         Score = 0;
     }
 	
@@ -24,12 +20,6 @@ public class Menu_Unity2D : MonoBehaviour {
     {
         Score += Value;
         pUI.GetComponent<DefaultUI>().ShowScore(Score);
-    }
-
-    void PlaySound_GetCoin()
-    {
-        audioSource.clip = GetCoin;
-        audioSource.Play();
     }
 
     void Update_PlayerHP()
