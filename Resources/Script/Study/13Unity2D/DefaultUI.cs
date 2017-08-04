@@ -38,7 +38,8 @@ public class DefaultUI : MonoBehaviour {
     public GameObject objToggleGroup;
     Toggle[] toggleRadio;
 
-	void Start () {
+    private void Awake()
+    {
         GameManager.Instance.IsGameRunning = true;
         Time.timeScale = 1.0f;
         ShowScore(0);
@@ -56,6 +57,11 @@ public class DefaultUI : MonoBehaviour {
         toggleRadio = objToggleGroup.GetComponentsInChildren<Toggle>();
 
         txtNickname.text = GameManager.Instance.Nickname;
+    }
+    void Start () {
+        sliderBGM.value = SoundManager.Instance.MapObjectVolume;
+        sliderPlayer.value = SoundManager.Instance.PlayerVolume;
+        sliderEnemy.value = SoundManager.Instance.EnemyVolume;
     }
 	
 	void Update () {
@@ -125,33 +131,52 @@ public class DefaultUI : MonoBehaviour {
         SceneManager.LoadScene("13Unity2D_Menu");
     }
 
-    public void OnToggleBGM()
+    public void OnToggle(string Type)
     {
-        if(toggleBGM.isOn)
+        switch(Type)
         {
-            Debug.Log("BGM ON");
-            // : to do something ...
-        }
-        else
-        {
-            Debug.Log("BGM OFF");
-            // : to do something ...
+            case "BGM":
+                if(toggleBGM.isOn)
+                {
+                    Debug.Log("BGM ON");
+                }
+                else
+                {
+                    Debug.Log("BGM OFF");
+                    sliderBGM.value = 0.0f;
+                    toggleBGM.isOn = false;
+                }
+                break;
+            case "Player":
+                if (togglePlayer.isOn)
+                {
+                    Debug.Log("Player ON");
+                    // : to do something ...
+                }
+                else
+                {
+                    Debug.Log("Player OFF");
+                    sliderPlayer.value = 0.0f;
+                    togglePlayer.isOn = false;
+                    // : to do something ...
+                }
+                break;
+            case "Enemy":
+                if(toggleEnemy.isOn)
+                {
+                    Debug.Log("Enemy ON");
+                }
+                else
+                {
+                    Debug.Log("Enemy OFF");
+                    sliderEnemy.value = 0.0f;
+                    toggleEnemy.isOn = false;
+                }
+                break;
         }
     }
 
-    public void OnTogglePlayer()
-    {
-        if(togglePlayer.isOn)
-        {
-            Debug.Log("Player ON");
-            // : to do something ...
-        }
-        else
-        {
-            Debug.Log("Player OFF");
-            // : to do something ...
-        }
-    }
+
 
     public void OnToggleRadio()
     {
@@ -166,6 +191,28 @@ public class DefaultUI : MonoBehaviour {
         else if(toggleRadio[2].isOn)
         {
             Debug.Log("Radio 2 - Checked");
+        }
+    }
+
+    public void MoveSlider(string Type)
+    {
+        switch(Type)
+        {
+            case "BGM":
+                if (!toggleBGM.isOn)
+                    toggleBGM.isOn = true;
+                SoundManager.Instance.MapObjectVolume = sliderBGM.value;
+                break;
+            case "Player":
+                if (!togglePlayer.isOn)
+                    togglePlayer.isOn = true;
+                SoundManager.Instance.PlayerVolume = sliderPlayer.value;
+                break;
+            case "Enemy":
+                if (!toggleEnemy.isOn)
+                    toggleEnemy.isOn = true;
+                SoundManager.Instance.EnemyVolume = sliderEnemy.value;
+                break;
         }
     }
     

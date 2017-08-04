@@ -31,13 +31,9 @@ public class SoundManager : MonoBehaviour {
     #endregion
 
     // Volume
-    [Range(0.0f, 1.0f)]
     public float PlayerVolume = 1.0f;
-    [Range(0.0f, 1.0f)]
     public float EnemyVolume = 1.0f;
-    [Range(0.0f, 1.0f)]
     public float MapObjectVolume = 1.0f;
-    [Range(0.0f, 1.0f)]
     public float ElseVolume = 1.0f;
 
     // Objects Audio Source
@@ -99,7 +95,7 @@ public class SoundManager : MonoBehaviour {
     }
 
     // Mute Partial
-    public void MutePartial(string Type)
+    public void Mute(string Type)
     {
         switch(Type)
         {
@@ -147,7 +143,7 @@ public class SoundManager : MonoBehaviour {
     }
 
     // Active Partial
-    public void ActivePartial(string Type)
+    public void ChangeVolume(string Type)
     {
         switch (Type)
         {
@@ -168,7 +164,6 @@ public class SoundManager : MonoBehaviour {
                     pTarget.Value.volume = ElseVolume;
                 break;
         }
-
     }
 
     // Delete Null Pointer
