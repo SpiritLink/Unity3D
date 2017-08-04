@@ -143,23 +143,27 @@ public class SoundManager : MonoBehaviour {
     }
 
     // Active Partial
-    public void ChangeVolume(string Type)
+    public void ChangeVolume(string Type, float Volume)
     {
         switch (Type)
         {
             case "Player":
+                PlayerVolume = Volume;
                 foreach (KeyValuePair<int, AudioSource> pTarget in Player)
                     pTarget.Value.volume = PlayerVolume;
                 break;
             case "Enemy":
+                EnemyVolume = Volume;
                 foreach (KeyValuePair<int, AudioSource> pTarget in Enemy)
                     pTarget.Value.volume = EnemyVolume;
                 break;
             case "MapObject":
+                MapObjectVolume = Volume;
                 foreach (KeyValuePair<int, AudioSource> pTarget in MapObject)
                     pTarget.Value.volume = MapObjectVolume;
                 break;
             case "Else":
+                ElseVolume = Volume;
                 foreach (KeyValuePair<int, AudioSource> pTarget in Else)
                     pTarget.Value.volume = ElseVolume;
                 break;

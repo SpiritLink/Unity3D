@@ -131,6 +131,7 @@ public class DefaultUI : MonoBehaviour {
         SceneManager.LoadScene("13Unity2D_Menu");
     }
 
+    // 토글 버튼을 활성화 , 비활성화 했을때의 처리
     public void OnToggle(string Type)
     {
         switch(Type)
@@ -143,6 +144,7 @@ public class DefaultUI : MonoBehaviour {
                 else
                 {
                     Debug.Log("BGM OFF");
+                    SoundManager.Instance.ChangeVolume("MapObject", 0.0f);
                     sliderBGM.value = 0.0f;
                     toggleBGM.isOn = false;
                 }
@@ -151,14 +153,13 @@ public class DefaultUI : MonoBehaviour {
                 if (togglePlayer.isOn)
                 {
                     Debug.Log("Player ON");
-                    // : to do something ...
                 }
                 else
                 {
                     Debug.Log("Player OFF");
+                    SoundManager.Instance.ChangeVolume("Player", 0.0f);
                     sliderPlayer.value = 0.0f;
                     togglePlayer.isOn = false;
-                    // : to do something ...
                 }
                 break;
             case "Enemy":
@@ -169,14 +170,13 @@ public class DefaultUI : MonoBehaviour {
                 else
                 {
                     Debug.Log("Enemy OFF");
+                    SoundManager.Instance.ChangeVolume("Enemy", 0.0f);
                     sliderEnemy.value = 0.0f;
                     toggleEnemy.isOn = false;
                 }
                 break;
         }
     }
-
-
 
     public void OnToggleRadio()
     {
@@ -194,6 +194,7 @@ public class DefaultUI : MonoBehaviour {
         }
     }
 
+    // 슬라이더를 이동시켰을 때 처리
     public void MoveSlider(string Type)
     {
         switch(Type)
@@ -201,17 +202,17 @@ public class DefaultUI : MonoBehaviour {
             case "BGM":
                 if (!toggleBGM.isOn)
                     toggleBGM.isOn = true;
-                SoundManager.Instance.MapObjectVolume = sliderBGM.value;
+                SoundManager.Instance.ChangeVolume("MapObject", sliderBGM.value);
                 break;
             case "Player":
                 if (!togglePlayer.isOn)
                     togglePlayer.isOn = true;
-                SoundManager.Instance.PlayerVolume = sliderPlayer.value;
+                SoundManager.Instance.ChangeVolume("Player", sliderPlayer.value);
                 break;
             case "Enemy":
                 if (!toggleEnemy.isOn)
                     toggleEnemy.isOn = true;
-                SoundManager.Instance.EnemyVolume = sliderEnemy.value;
+                SoundManager.Instance.ChangeVolume("Enemy", sliderEnemy.value);
                 break;
         }
     }
