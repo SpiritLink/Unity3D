@@ -35,7 +35,7 @@ public class Player_Unity2D : MonoBehaviour {
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         OriginColor = spriteRenderer.color;
-        nHp = 100;
+        nHp = 5;
     }
 
     void Update () {

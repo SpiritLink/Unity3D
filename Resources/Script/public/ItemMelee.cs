@@ -13,11 +13,12 @@ public class ItemMelee : MonoBehaviour {
     public MeleeAction meleeAction = MeleeAction.None;
     public MeleeType meleeType = MeleeType.None;
 
-    void OnEnable()
+    private void Awake()
     {
-        if(meleeAction == MeleeAction.CheckPoint && meleeType == MeleeType.Node)
+        if (meleeAction == MeleeAction.CheckPoint && meleeType == MeleeType.Node)
             GameObject.Find("NodeManager").GetComponent<NodeManager_CarGame>().AddNode(Value, this.gameObject);
     }
+
     void Start () {
 	}
 	
@@ -43,8 +44,7 @@ public class ItemMelee : MonoBehaviour {
 
     void ActiveCheckPoint(GameObject other)
     {
-        other.SendMessage("ActiveCheckPoint", 
-            new KeyValuePair<string, int>(Name, Value));
+        other.SendMessage("ActiveCheckPoint", Value);
     }
 
     void CheckPoint(GameObject other)

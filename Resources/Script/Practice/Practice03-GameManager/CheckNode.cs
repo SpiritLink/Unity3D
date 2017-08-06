@@ -12,9 +12,10 @@ public class CheckNode : MonoBehaviour {
         CheckPointDic = new Dictionary<int, bool>();
     }
     void Start () {
-	}
-	
-	void Update () {
+        ID = GameObject.Find("Menu").GetComponent<RaceMenu>().GetID();
+    }
+
+    void Update () {
 		
 	}
 

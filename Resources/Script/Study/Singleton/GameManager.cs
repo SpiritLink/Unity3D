@@ -32,6 +32,14 @@ public class GameManager : MonoBehaviour {
     // Player Data
     public string Nickname { get; set; }
 
+    // Unity 2D Data
+    public List<int> Unity2DScore
+    { get; set; }
+
+    private void OnEnable()
+    {
+        Unity2DScore = new List<int>();
+    }
 
     public void InitGameManager()
     {

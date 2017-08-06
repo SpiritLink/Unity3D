@@ -64,14 +64,14 @@ public class Ai_Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.IsGameRunning)
-        {
+        //if(GameManager.Instance.IsGameRunning)
+        //{
             Update_Ray();
             MoveAiCar();
             Update_Move();
             Update_Direction();
             Update_Status();
-        }
+        //}
     }
 
     void Init()
@@ -218,8 +218,11 @@ public class Ai_Car : MonoBehaviour
             ColTime -= Time.deltaTime;
     }
 
-    void ActiveCheckPoint(KeyValuePair<string, int> stData)
+    void ActiveCheckPoint(int NodeCnt)
     {
+        // 노드에 충돌했을때 실행되는 함수입니다. 다음 목적지를 향할 수 있도록 처리해야 합니다.
+
+        nextPoint = GameObject.Find("NodeManager").GetComponent<NodeManager_CarGame>().GetNode(NodeCnt + 1);
     }
 
     private void OnCollisionEnter(Collision collision)

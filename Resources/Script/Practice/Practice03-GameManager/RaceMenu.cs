@@ -17,6 +17,7 @@ public class RaceMenu : MonoBehaviour {
     int ColCnt = 0;
 
     // 레이싱 게임 관련 변수
+    int ID = 0;
 
 	void Start () {
 		
@@ -37,15 +38,9 @@ public class RaceMenu : MonoBehaviour {
         ColCnt++;
     }
 
-    void LapTime(int ID)
+    public int GetID()
     {
-        float LapTime, GameTime;
-        if(!PrevLapTimeDic.ContainsKey(ID))
-        {
-        }
-        else
-        {
-        }
+        return ID++;
     }
 
     Rect ColCntArea = new Rect(300, 0, 100, 30);

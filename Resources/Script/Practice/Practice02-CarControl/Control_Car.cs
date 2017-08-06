@@ -86,32 +86,14 @@ public class Control_Car : MonoBehaviour {
         }
     }
 
-    void ActiveCheckPoint(KeyValuePair<string, int> stData)
+    void ActiveCheckPoint(int NodeCnt)
     {
-        Debug.Log("Active Check Point : " + stData.Value.ToString());
+        Debug.Log("Active Check Point : " + NodeCnt.ToString());
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         fColTime = 0.0f;
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-    }
-
-    private void OnTriggerEnter(Collider col)
-    {
-        //if (col.gameObject.tag != "MapObject")
-        //    Debug.Log("OnTriggerEnter");
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
     }
 
     private void OnTriggerExit(Collider other)

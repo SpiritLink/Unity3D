@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Menu_Unity2D : MonoBehaviour {
 
@@ -32,7 +33,10 @@ public class Menu_Unity2D : MonoBehaviour {
         // 플레이어가 죽을 경우 
         if(HP <= 0)
         {
-            pUI.GetComponent<DefaultUI>().ShowDiedMenu();
+            pUI.GetComponent<DefaultUI>().ShowDiedMenu(); // << : 현재 다른 씬으로 전환됩니다.
+            GameManager.Instance.Unity2DScore.Add(Score); // : 싱글톤의 리스트에 점수를 추가합니다.
+            SceneManager.LoadScene("13Unity2D_Result");
+            // 이때 약간 딜레이를 줘야하나 ?
         }
     }
 }
