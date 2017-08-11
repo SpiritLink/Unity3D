@@ -4,23 +4,17 @@ using UnityEngine;
 
 public class Background_Unity2D : MonoBehaviour {
 
-    public float moveSpeed = 10.0f;
+    public float speed = 0.25f;
+    private Renderer renderer;
 
-	void Start () {
-		
-	}
+    void Start () {
+        speed = 0.25f;
+        renderer = GetComponent<Renderer>();
+    }
 	
 	void Update () {
-
-        if (GameManager.Instance.IsGameRunning == false) return;
-
-        this.transform.Translate(Vector2.left * moveSpeed);
-
-        if (this.transform.position.x < -910)
-        {
-            Vector2 nextPosition = this.transform.position;
-            nextPosition.x = 990;
-            this.transform.position = nextPosition;
-        }
+        //if (GameManager.Instance.IsGameRunning == false) return;
+        Vector2 offset = new Vector2(Time.time * speed, 0);
+        renderer.material.mainTextureOffset = offset;
 	}
 }

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectID : MonoBehaviour {
+public class ObjectID : MonoBehaviour
+{
 
     private int ID = -1;
 
@@ -11,17 +12,19 @@ public class ObjectID : MonoBehaviour {
         ID = GameManager.Instance.GetIndex();
     }
 
-    void Start ()
+    void Start()
     {
         AudioSource audio;
         audio = GetComponent<AudioSource>();
         if (audio == null) return;
-        
+
         SoundManager.Instance.AddAudio(ID, audio, this.gameObject.tag);
-        Debug.Log(ID.ToString() + " Add Audio");
-	}
-	
-	void Update ()
+    }
+
+
+    private void OnApplicationQuit()
     {
-	}
+        Debug.Log("Delete Audio");
+        SoundManager.Instance.DeleteAudio(ID, this.gameObject.tag);
+    }
 }

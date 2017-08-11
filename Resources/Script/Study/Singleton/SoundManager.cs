@@ -150,43 +150,63 @@ public class SoundManager : MonoBehaviour {
             case "Player":
                 PlayerVolume = Volume;
                 foreach (KeyValuePair<int, AudioSource> pTarget in Player)
+                {
+                    if (!pTarget.Value) continue;
                     pTarget.Value.volume = PlayerVolume;
+                }
                 break;
             case "Enemy":
                 EnemyVolume = Volume;
                 foreach (KeyValuePair<int, AudioSource> pTarget in Enemy)
+                {
+                    if (!pTarget.Value) continue;
                     pTarget.Value.volume = EnemyVolume;
+                }
                 break;
             case "MapObject":
                 MapObjectVolume = Volume;
                 foreach (KeyValuePair<int, AudioSource> pTarget in MapObject)
+                {
+                    if (!pTarget.Value) continue;
                     pTarget.Value.volume = MapObjectVolume;
+                }
                 break;
             case "Else":
                 ElseVolume = Volume;
                 foreach (KeyValuePair<int, AudioSource> pTarget in Else)
+                {
+                    if (!pTarget.Value) continue;
                     pTarget.Value.volume = ElseVolume;
+                }
                 break;
         }
     }
 
-    // Delete Null Pointer
-    void OptimizeAudioSources()
+    // Delete Dictinary Data
+    public void DeleteAudio(int ID, string tag)
     {
-        /* foreach Loop */
-
-        //foreach(KeyValuePair<int, AudioSource> sound in AudioSources)
-        //{
-        //    if(sound.Value == null)
-        //    {
-        //        AudioSources.Remove(sound.Key);
-        //    }
-        //}
-
-        /* for Loop */
-        for (int i = 0; i < MapObject.Count; ++i)
+        switch(tag)
         {
-            // 미구현
+            case "Player":
+                Player.Remove(ID);
+                break;
+            case "Enemy":
+                Enemy.Remove(ID);
+                break;
+            case "MapObject":
+                MapObject.Remove(ID);
+                break;
+            default:
+                Else.Remove(ID);
+                break;
         }
+    }
+
+    private void OnDestroy()
+    {
+        Player.Clear();
+        Enemy.Clear();
+        MapObject.Clear();
+        Else.Clear();
     }
 }

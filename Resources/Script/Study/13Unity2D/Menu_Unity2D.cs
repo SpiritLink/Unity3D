@@ -6,21 +6,26 @@ using UnityEngine.SceneManagement;
 public class Menu_Unity2D : MonoBehaviour {
 
     private int Score;
+    private float fTime;
     public GameObject pPlayer;
     public GameObject pUI;
 
-	void Start () {
+    void Start()
+    {
         Score = 0;
+        fTime = 0.0f;
     }
-	
-	void Update () {
+
+    void Update()
+    {
         Update_PlayerHP();
+        fTime += Time.deltaTime;
     }
 
     void AddScore(int Value)
     {
         Score += Value;
-        pUI.GetComponent<DefaultUI>().ShowScore(Score);
+        pUI.GetComponent<UI_Unity2D>().ShowScore(Score);
     }
 
     void Update_PlayerHP()
@@ -28,15 +33,23 @@ public class Menu_Unity2D : MonoBehaviour {
         if (pPlayer == null || pUI == null) return;
         int HP;
         HP = pPlayer.GetComponent<Player_Unity2D>().nHp;
-        pUI.GetComponent<DefaultUI>().ShowHPbar(HP);
+        pUI.GetComponent<UI_Unity2D>().ShowHPbar(HP);
 
         // 플레이어가 죽을 경우 
-        if(HP <= 0)
+        if (HP <= 0)
         {
-            pUI.GetComponent<DefaultUI>().ShowDiedMenu(); // << : 현재 다른 씬으로 전환됩니다.
-            GameManager.Instance.Unity2DScore.Add(Score); // : 싱글톤의 리스트에 점수를 추가합니다.
+            int TimeScore = (int)fTime * 10;
+            int CoinScore = Score;
+            GameManager.Instance.TimeScore = TimeScore;
+            GameManager.Instance.CoinScore = CoinScore;
+
+            int ResultScore = TimeScore + CoinScore;
+            GameManager.Instance.AddScore(ResultScore); // << : 닉네임과 점수를 묶어서 저장합니다.
+            GameManager.Instance.SortUnity2DScore();
             SceneManager.LoadScene("13Unity2D_Result");
             // 이때 약간 딜레이를 줘야하나 ?
         }
     }
+
+
 }

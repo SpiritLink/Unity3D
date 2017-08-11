@@ -43,6 +43,11 @@ public class RaceMenu : MonoBehaviour {
         return ID++;
     }
 
+    void Round(int ID)
+    {
+        Debug.Log("Round Function : " + ID.ToString());
+    }
+
     Rect ColCntArea = new Rect(300, 0, 100, 30);
     private void OnGUI()
     {
