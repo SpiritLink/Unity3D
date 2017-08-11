@@ -112,29 +112,6 @@ public class GameManager : MonoBehaviour {
     // 리스트에 존재하는 스코어를 저장합니다.
     void SaveData()
     {
-        // Use PlayerPrefs
-        //string name = "Unity2DScore";
-        //string Cnt = "";
-        //for(int i = 0; i < Unity2DScore.Count; ++i)
-        //{
-        //    Cnt = i.ToString();
-        //    string FullPath = name + Cnt;
-
-        //    // Create Data
-        //    Unity2DSaveInfo SaveInfo = new Unity2DSaveInfo();
-        //    SaveInfo.name = Unity2DScore[i].Key;
-        //    SaveInfo.Score = Unity2DScore[i].Value;
-
-        //    // Save
-        //    BinaryFormatter formatter = new BinaryFormatter();
-        //    MemoryStream memStream = new MemoryStream();
-
-        //    formatter.Serialize(memStream, SaveInfo);
-        //    byte[] bytes = memStream.GetBuffer();
-        //    String memStr = Convert.ToBase64String(bytes);
-        //    PlayerPrefs.SetString(FullPath, memStr);
-        //}
-
         JsonData infoJson = JsonMapper.ToJson(Unity2DScore);
         File.WriteAllText(Application.dataPath + "/Resources/JSONdata/PlayerInfoData.json",infoJson.ToString());
     }
@@ -142,29 +119,6 @@ public class GameManager : MonoBehaviour {
     // 이진화된 데이터를 불러 List에 삽입합니다. (스코어)
     void LoadData()
     {
-        //// Use PlayerPrefs
-        //string name = "Unity2DScore";
-        //string Cnt = "";
-        //for(int i = 0; i < 10; ++i)
-        //{
-        //    Cnt = i.ToString();
-        //    string FullPath = name + Cnt;
-
-        //    // 정보가 없다면 루프를 빠져 나갑니다.
-        //    if (!PlayerPrefs.HasKey(FullPath))
-        //        break;
-
-        //    string getInfos = PlayerPrefs.GetString(FullPath);
-        //    byte[] getBytes = Convert.FromBase64String(getInfos);
-        //    MemoryStream memStream = new MemoryStream(getBytes);
-        //    BinaryFormatter formatter = new BinaryFormatter();
-
-        //    Unity2DSaveInfo SaveInfo = (Unity2DSaveInfo)formatter.Deserialize(memStream);
-
-        //    KeyValuePair<string, int> ListData = new KeyValuePair<string, int>(SaveInfo.name, SaveInfo.Score);
-        //    Unity2DScore.Add(ListData);
-        //}
-
         string jsonString = File.ReadAllText(Application.dataPath + "/Resources/JSONdata/PlayerInfoData.json");
         JsonData playerData = JsonMapper.ToObject(jsonString);
 
